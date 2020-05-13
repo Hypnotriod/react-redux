@@ -3,10 +3,12 @@ import thunk from 'redux-thunk';
 import { UserState } from './user/UserState';
 import userReducer from './user/UserReducer';
 
-export type Store = {
-    user: UserState,
-};
+export interface ApplicationState {
+    userState: UserState;
+}
 
-export const store = createStore(combineReducers({
-    user: userReducer,
-}), applyMiddleware(thunk));
+export default createStore(
+    combineReducers<ApplicationState>({
+        userState: userReducer,
+    }),
+    applyMiddleware(thunk));

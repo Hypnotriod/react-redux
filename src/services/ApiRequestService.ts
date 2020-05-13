@@ -1,0 +1,95 @@
+import StoreActionTypes from '../store/StoreTypes';
+import HttpStatusCode from '../constants/HttpStatusCode';
+import AuthorizationResult from '../dto/AuthorizationResult';
+import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
+import { Action } from 'redux';
+import { UserActions } from '../store/user/UserActions';
+import { ThunkDispatch } from 'redux-thunk';
+import { API_REFRESH_TOKEN, API_LOGIN, API_LOGOUT } from '../constants/API';
+import ServerResponseResult from '../dto/ServerResponseResult';
+
+class ApiRequestService {
+    public sendLogInRequest(login: string, password: string): Promise<AxiosResponse<AuthorizationResult>> {
+        return axios.post<AuthorizationResult>(
+            API_LOGIN,
+            { login, password },
+            this.getRequestConfig());
+    }
+
+    public sendLogOutRequest(
+        authenticationToken: string,
+        refreshToken: string,
+        dispatch: ThunkDispatch<UserActions, undefined, Action>): Promise<AxiosResponse<ServerResponseResult>> {
+        return this.wrapWithRefreshTokenRequest<ServerResponseResult>(
+            (authenticationToken) => {
+                return axios.post<ServerResponseResult>(
+                    API_LOGOUT, null, this.getRequestConfigWithAuthToken(authenticationToken));
+            },
+            dispatch,
+            authenticationToken,
+            refreshToken,
+        );
+    }
+
+    public sendRefreshTokenRequest(refreshToken: string): Promise<AxiosResponse<AuthorizationResult>> {
+        return axios.post<AuthorizationResult>(
+            API_REFRESH_TOKEN,
+            { refreshToken },
+            this.getRequestConfig());
+    }
+
+    private async wrapWithRefreshTokenRequest<T>(
+        request: (authenticationToken: string) => Promise<AxiosResponse<T>>,
+        dispatch: ThunkDispatch<UserActions, undefined, Action>,
+        authenticationToken: string,
+        refreshToken: string): Promise<AxiosResponse<T>> {
+
+        let result: AxiosResponse<T> | null = null;
+        let error: AxiosError | null = null;
+        let refreshTokenResult: AxiosResponse<AuthorizationResult> | null = null;
+
+        try {
+            result = await request(authenticationToken);
+        } catch (e) {
+            error = e;
+        }
+
+        if (error && error.response && error.response.status !== HttpStatusCode.UNAUTHORIZED) {
+            throw error;
+        } else if (result) {
+            return result;
+        }
+
+        try {
+            refreshTokenResult = await this.sendRefreshTokenRequest(refreshToken);
+            dispatch({
+                type: StoreActionTypes.USER_REFRESH_TOKEN,
+                payload: refreshTokenResult,
+            });
+        } catch (error) {
+            throw error;
+        }
+
+        return request(refreshTokenResult.data.authenticationToken!);
+    }
+
+    private getRequestConfigWithAuthToken(authenticationToken: string): AxiosRequestConfig {
+        return {
+            ...this.getRequestConfig(),
+            headers: {
+                'Authorization': authenticationToken,
+            },
+        };
+    }
+
+    private getRequestConfig(): AxiosRequestConfig {
+        return {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            responseType: 'json',
+        };
+    }
+}
+
+export default new ApiRequestService();

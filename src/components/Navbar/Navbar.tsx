@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import './Header.css';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Sidenav } from 'materialize-css';
+import UserIcon from './UserIcon';
+import './Navbar.css';
 
-const Header: React.FunctionComponent = () => {
+const Navbar: React.FunctionComponent = () => {
     const slideOut = useRef<HTMLUListElement>(null);
 
     useEffect(() => {
@@ -12,23 +13,21 @@ const Header: React.FunctionComponent = () => {
 
     return (
         <>
-            <nav>
+            <nav className='blue darken-1'>
                 <a href='/' data-target='slide-out' className='sidenav-trigger show-on-med-and-down'>
                     <i className='material-icons'>menu</i></a>
                 <div className='nav-wrapper'>
-                    <ul id='nav-mobile' className='right hide-on-med-and-down'>
-                        <li><Link to='/'>Home</Link></li>
+                    <ul id='nav-mobile' className='left hide-on-med-and-down'>
+                        <li><NavLink to='/'>Home</NavLink></li>
                     </ul>
+                    <UserIcon />
                 </div>
-
             </nav>
-            <ul id='slide-out' className='sidenav' ref={slideOut}>
-                <li><a href='#item1'>Item 1</a></li>
-                <li><a href='#item2'>Item 2</a></li>
-                <li><a href='#item3'>Item 3</a></li>
+            <ul id='slide-out' className='sidenav sidenav-close' ref={slideOut}>
+                <li><NavLink to='/'>Home</NavLink></li>
             </ul>
         </>
     );
 };
 
-export default Header;
+export default Navbar;
