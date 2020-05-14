@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import LoginPage from './components/routing/login/LoginPage';
-import Navbar from './components/Navbar/Navbar';
+import Navbar from './components/navbar/Navbar';
 import ProductsPage from './components/routing/products/ProductsPage';
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
