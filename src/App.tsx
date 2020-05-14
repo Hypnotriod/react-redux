@@ -6,7 +6,7 @@ import Landing from './components/routing/landing/Landing';
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from './store/Store';
-import { userRefreshTokenAction } from './store/user/UserActions';
+import { userRefreshTokenAction } from './store/user/UserCredentialsActions';
 
 const App: React.FunctionComponent = () => {
 

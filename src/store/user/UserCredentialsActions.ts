@@ -7,13 +7,13 @@ import ServerResponseResult from '../../dto/ServerResponseResult';
 import requestService from '../../services/ApiRequestService';
 import { AxiosError } from 'axios';
 
-export type UserActions =
+export type UserCredentialsActions =
     StoreAction<StoreActionTypes.USER_LOGIN, AuthorizationResult> |
     StoreAction<StoreActionTypes.USER_REFRESH_TOKEN, AuthorizationResult> |
     StoreAction<StoreActionTypes.USER_LOGOUT, ServerResponseResult>;
 
 export function userLogInAction(login: string, password: string): any {
-    return async (dispatch: ThunkDispatch<UserActions, undefined, Action>) => {
+    return async (dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>) => {
         try {
             const result = await requestService.sendLogInRequest(login, password);
             dispatch({
@@ -33,7 +33,7 @@ export function userLogInAction(login: string, password: string): any {
 }
 
 export function userRefreshTokenAction(refreshToken: string): any {
-    return async (dispatch: ThunkDispatch<UserActions, undefined, Action>) => {
+    return async (dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>) => {
         try {
             const result = await requestService.sendRefreshTokenRequest(refreshToken);
             dispatch({
@@ -49,7 +49,7 @@ export function userRefreshTokenAction(refreshToken: string): any {
 }
 
 export function userLogOutAction(authenticationToken: string, refreshToken: string): any {
-    return async (dispatch: ThunkDispatch<UserActions, undefined, Action>) => {
+    return async (dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>) => {
         try {
             await requestService.sendLogOutRequest(authenticationToken, refreshToken, dispatch);
         } finally {

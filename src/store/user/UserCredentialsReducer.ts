@@ -1,5 +1,5 @@
 import { UserCredentials } from './UserCredentials';
-import { UserActions } from './UserActions';
+import { UserCredentialsActions } from './UserCredentialsActions';
 import StoreActionTypes from '../StoreTypes';
 import AuthorizationResult from '../../dto/AuthorizationResult';
 import HttpStatusCode from '../../constants/HttpStatusCode';
@@ -16,9 +16,9 @@ const defaultState: UserCredentials = {
     authenticationError: false,
 };
 
-const userReducer = (
+const userCredentialsReducer = (
     state: UserCredentials = defaultState,
-    action: UserActions): UserCredentials => {
+    action: UserCredentialsActions): UserCredentials => {
     switch (action.type) {
         case StoreActionTypes.USER_LOGIN:
             return handleUserLogin(state, action.payload);
@@ -75,4 +75,4 @@ function handleUserLogout(state: UserCredentials, payload: ServerResponseResult)
     };
 }
 
-export default userReducer;
+export default userCredentialsReducer;

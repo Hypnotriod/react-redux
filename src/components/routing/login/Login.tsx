@@ -4,7 +4,7 @@ import { LOGIN_VALIDATION_REGEXP } from '../../../constants/Regexp';
 import CharCodes from '../../../constants/CharCodes';
 import { LOGIN_MIN_LENGTH, LOGIN_MAX_LENGTH } from '../../../constants/API';
 import { useDispatch, useSelector } from 'react-redux';
-import { userLogInAction } from '../../../store/user/UserActions';
+import { userLogInAction } from '../../../store/user/UserCredentialsActions';
 import { ApplicationState } from '../../../store/Store';
 import { UserCredentials } from '../../../store/user/UserCredentials';
 import { useHistory } from 'react-router-dom';

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { ApplicationState } from '../../store/Store';
 import { UserCredentials } from '../../store/user/UserCredentials';
-import { userLogOutAction } from '../../store/user/UserActions';
+import { userLogOutAction } from '../../store/user/UserCredentialsActions';
 
 const UserIcon: React.FunctionComponent = () => {
     const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);

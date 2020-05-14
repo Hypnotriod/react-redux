@@ -3,7 +3,7 @@ import HttpStatusCode from '../constants/HttpStatusCode';
 import AuthorizationResult from '../dto/AuthorizationResult';
 import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
 import { Action } from 'redux';
-import { UserActions } from '../store/user/UserActions';
+import { UserCredentialsActions } from '../store/user/UserCredentialsActions';
 import { ThunkDispatch } from 'redux-thunk';
 import { API_REFRESH_TOKEN, API_LOGIN, API_LOGOUT } from '../constants/API';
 import ServerResponseResult from '../dto/ServerResponseResult';
@@ -19,7 +19,7 @@ class ApiRequestService {
     public sendLogOutRequest(
         authenticationToken: string,
         refreshToken: string,
-        dispatch: ThunkDispatch<UserActions, undefined, Action>): Promise<AxiosResponse<ServerResponseResult>> {
+        dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>): Promise<AxiosResponse<ServerResponseResult>> {
         return this.wrapWithRefreshTokenRequest<ServerResponseResult>(
             (authenticationToken) => {
                 return axios.post<ServerResponseResult>(
@@ -40,7 +40,7 @@ class ApiRequestService {
 
     private async wrapWithRefreshTokenRequest<T>(
         request: (authenticationToken: string) => Promise<AxiosResponse<T>>,
-        dispatch: ThunkDispatch<UserActions, undefined, Action>,
+        dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>,
         authenticationToken: string,
         refreshToken: string): Promise<AxiosResponse<T>> {
 
