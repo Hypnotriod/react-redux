@@ -6,6 +6,11 @@ import HttpStatusCode from '../../constants/HttpStatusCode';
 import ServerResponseResult from '../../dto/ServerResponseResult';
 import localStorageService from '../../services/LocalStorageService';
 
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 const LOCAL_STORAGE_REFRESH_TOKEN_KEY: string = 'token';
 
 const defaultState: UserCredentials = {

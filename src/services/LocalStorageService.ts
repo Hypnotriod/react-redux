@@ -1,4 +1,9 @@
 
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 class LocalStorageService {
     public save<T>(state: T, key: string): T {
         try {

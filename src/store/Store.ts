@@ -3,6 +3,11 @@ import thunk from 'redux-thunk';
 import { UserCredentials } from './user/UserCredentials';
 import userCredentialsReducer from './user/UserCredentialsReducer';
 
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 export interface ApplicationState {
     userCredentials: UserCredentials;
 }

@@ -8,6 +8,11 @@ import { ThunkDispatch } from 'redux-thunk';
 import { API_REFRESH_TOKEN, API_LOGIN, API_LOGOUT } from '../constants/API';
 import ServerResponseResult from '../dto/ServerResponseResult';
 
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 class ApiRequestService {
     public sendLogInRequest(login: string, password: string): Promise<AxiosResponse<AuthorizationResult>> {
         return axios.post<AuthorizationResult>(

@@ -8,6 +8,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from './store/Store';
 import { userRefreshTokenAction } from './store/user/UserCredentialsActions';
 
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 const App: React.FunctionComponent = () => {
 
   const userState = useSelector((state: ApplicationState) => state.userCredentials);

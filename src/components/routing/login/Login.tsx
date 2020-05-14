@@ -9,6 +9,11 @@ import { ApplicationState } from '../../../store/Store';
 import { UserCredentials } from '../../../store/user/UserCredentials';
 import { useHistory } from 'react-router-dom';
 
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 const Login: React.FunctionComponent = () => {
 
     const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);

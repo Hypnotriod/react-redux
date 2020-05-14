@@ -7,6 +7,11 @@ import ServerResponseResult from '../../dto/ServerResponseResult';
 import requestService from '../../services/ApiRequestService';
 import { AxiosError } from 'axios';
 
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 export type UserCredentialsActions =
     StoreAction<StoreActionTypes.USER_LOGIN, AuthorizationResult> |
     StoreAction<StoreActionTypes.USER_REFRESH_TOKEN, AuthorizationResult> |

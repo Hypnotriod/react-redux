@@ -4,6 +4,11 @@ import { Sidenav } from 'materialize-css';
 import UserIcon from './UserIcon';
 import './Navbar.css';
 
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 const Navbar: React.FunctionComponent = () => {
     const slideOut = useRef<HTMLUListElement>(null);
 

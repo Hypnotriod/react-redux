@@ -5,6 +5,11 @@ import { ApplicationState } from '../../store/Store';
 import { UserCredentials } from '../../store/user/UserCredentials';
 import { userLogOutAction } from '../../store/user/UserCredentialsActions';
 
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 const UserIcon: React.FunctionComponent = () => {
     const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);
     const dispatch = useDispatch();

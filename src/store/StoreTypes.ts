@@ -1,3 +1,9 @@
+
+/**
+ *
+ * @author Ilya Pikin
+ */
+
 export type StoreAction<T extends StoreActionTypes, P> = {
     type: T,
     payload: P,
