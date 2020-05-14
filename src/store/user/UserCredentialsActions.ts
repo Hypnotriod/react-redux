@@ -4,7 +4,7 @@ import StoreActionTypes from '../StoreTypes';
 import { ThunkDispatch } from 'redux-thunk';
 import AuthorizationResult from '../../dto/AuthorizationResult';
 import ServerResponseResult from '../../dto/ServerResponseResult';
-import requestService from '../../services/ApiRequestService';
+import apiRequestService from '../../services/ApiRequestService';
 import { AxiosError } from 'axios';
 
 /**
@@ -12,15 +12,15 @@ import { AxiosError } from 'axios';
  * @author Ilya Pikin
  */
 
-export type UserCredentialsActions =
+export type UserCredentialsAction =
     StoreAction<StoreActionTypes.USER_LOGIN, AuthorizationResult> |
     StoreAction<StoreActionTypes.USER_REFRESH_TOKEN, AuthorizationResult> |
     StoreAction<StoreActionTypes.USER_LOGOUT, ServerResponseResult>;
 
 export function userLogInAction(login: string, password: string): any {
-    return async (dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>) => {
+    return async (dispatch: ThunkDispatch<UserCredentialsAction, undefined, Action>) => {
         try {
-            const result = await requestService.sendLogInRequest(login, password);
+            const result = await apiRequestService.sendLogInRequest(login, password);
             dispatch({
                 type: StoreActionTypes.USER_LOGIN,
                 payload: result.data,
@@ -38,9 +38,9 @@ export function userLogInAction(login: string, password: string): any {
 }
 
 export function userRefreshTokenAction(refreshToken: string): any {
-    return async (dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>) => {
+    return async (dispatch: ThunkDispatch<UserCredentialsAction, undefined, Action>) => {
         try {
-            const result = await requestService.sendRefreshTokenRequest(refreshToken);
+            const result = await apiRequestService.sendRefreshTokenRequest(refreshToken);
             dispatch({
                 type: StoreActionTypes.USER_REFRESH_TOKEN,
                 payload: result.data,
@@ -54,9 +54,9 @@ export function userRefreshTokenAction(refreshToken: string): any {
 }
 
 export function userLogOutAction(authenticationToken: string, refreshToken: string): any {
-    return async (dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>) => {
+    return async (dispatch: ThunkDispatch<UserCredentialsAction, undefined, Action>) => {
         try {
-            await requestService.sendLogOutRequest(authenticationToken, refreshToken, dispatch);
+            await apiRequestService.sendLogOutRequest(authenticationToken, refreshToken, dispatch);
         } finally {
             dispatch({
                 type: StoreActionTypes.USER_LOGOUT,
@@ -64,4 +64,3 @@ export function userLogOutAction(authenticationToken: string, refreshToken: stri
         }
     };
 }
-

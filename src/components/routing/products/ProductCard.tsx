@@ -1,0 +1,33 @@
+import React from 'react';
+import Product from '../../../store/product/Product';
+
+/**
+ *
+ * @author Ilya Pikin
+ */
+
+const ProductCard: React.FunctionComponent<{ product: Product }> = (props) => {
+
+    return (
+        <div className='col s12 m12 l6'>
+            <div className='card grey lighten-5'>
+                <div className='card-content'>
+                    <span className='card-title activator'>{props.product.name}
+                        <i className='material-icons right'>more_vert</i></span>
+                ({props.product.type})
+            </div>
+                <div className='card-reveal'>
+                    <span className='card-title grey-text text-darken-4'>{props.product.name}
+                        <i className='material-icons right'>close</i></span>
+                    <h6>{props.product.description}</h6>
+                </div>
+                <div className='card-action blue lighten-4'>
+                    <span>{props.product.price} {props.product.currency} / {props.product.units}</span>
+                </div>
+            </div>
+        </div>
+
+    );
+};
+
+export default ProductCard;

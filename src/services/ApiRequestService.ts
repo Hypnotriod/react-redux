@@ -3,9 +3,9 @@ import HttpStatusCode from '../constants/HttpStatusCode';
 import AuthorizationResult from '../dto/AuthorizationResult';
 import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
 import { Action } from 'redux';
-import { UserCredentialsActions } from '../store/user/UserCredentialsActions';
+import { UserCredentialsAction } from '../store/user/UserCredentialsActions';
 import { ThunkDispatch } from 'redux-thunk';
-import { API_REFRESH_TOKEN, API_LOGIN, API_LOGOUT } from '../constants/API';
+import { API_REFRESH_TOKEN, API_LOGIN, API_LOGOUT, API_GET_ALL_PRODUCTS } from '../constants/API';
 import ServerResponseResult from '../dto/ServerResponseResult';
 
 /**
@@ -24,7 +24,7 @@ class ApiRequestService {
     public sendLogOutRequest(
         authenticationToken: string,
         refreshToken: string,
-        dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>): Promise<AxiosResponse<ServerResponseResult>> {
+        dispatch: ThunkDispatch<UserCredentialsAction, undefined, Action>): Promise<AxiosResponse<ServerResponseResult>> {
         return this.wrapWithRefreshTokenRequest<ServerResponseResult>(
             (authenticationToken) => {
                 return axios.post<ServerResponseResult>(
@@ -43,11 +43,26 @@ class ApiRequestService {
             this.getRequestConfig());
     }
 
+    public sendGetAllProductsRequest(
+        authenticationToken: string | null,
+        refreshToken: string | null,
+        dispatch: ThunkDispatch<UserCredentialsAction, undefined, Action>): Promise<AxiosResponse<ServerResponseResult>> {
+        return this.wrapWithRefreshTokenRequest<ServerResponseResult>(
+            (authenticationToken) => {
+                return axios.get<ServerResponseResult>(
+                    API_GET_ALL_PRODUCTS, this.getRequestConfigWithAuthToken(authenticationToken));
+            },
+            dispatch,
+            authenticationToken,
+            refreshToken,
+        );
+    }
+
     private async wrapWithRefreshTokenRequest<T>(
-        request: (authenticationToken: string) => Promise<AxiosResponse<T>>,
-        dispatch: ThunkDispatch<UserCredentialsActions, undefined, Action>,
-        authenticationToken: string,
-        refreshToken: string): Promise<AxiosResponse<T>> {
+        request: (authenticationToken: string | null) => Promise<AxiosResponse<T>>,
+        dispatch: ThunkDispatch<UserCredentialsAction, undefined, Action>,
+        authenticationToken: string | null,
+        refreshToken: string | null): Promise<AxiosResponse<T>> {
 
         let result: AxiosResponse<T> | null = null;
         let error: AxiosError | null = null;
@@ -61,12 +76,14 @@ class ApiRequestService {
 
         if (error && error.response && error.response.status !== HttpStatusCode.UNAUTHORIZED) {
             throw error;
+        } else if (error && !refreshToken) {
+            throw error;
         } else if (result) {
             return result;
         }
 
         try {
-            refreshTokenResult = await this.sendRefreshTokenRequest(refreshToken);
+            refreshTokenResult = await this.sendRefreshTokenRequest(refreshToken!);
             dispatch({
                 type: StoreActionTypes.USER_REFRESH_TOKEN,
                 payload: refreshTokenResult,
@@ -78,13 +95,17 @@ class ApiRequestService {
         return request(refreshTokenResult.data.authenticationToken!);
     }
 
-    private getRequestConfigWithAuthToken(authenticationToken: string): AxiosRequestConfig {
-        return {
-            ...this.getRequestConfig(),
-            headers: {
-                'Authorization': authenticationToken,
-            },
-        };
+    private getRequestConfigWithAuthToken(authenticationToken: string | null): AxiosRequestConfig {
+        if (authenticationToken) {
+            return {
+                ...this.getRequestConfig(),
+                headers: {
+                    'Authorization': authenticationToken,
+                },
+            };
+        } else {
+            return this.getRequestConfig();
+        }
     }
 
     private getRequestConfig(): AxiosRequestConfig {

@@ -4,7 +4,7 @@
  * @author Ilya Pikin
  */
 
- export interface UserCredentials {
+export interface UserCredentials {
     authenticationToken: string | null;
     refreshToken: string | null;
     login: string | null;

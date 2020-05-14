@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom';
  * @author Ilya Pikin
  */
 
-const Login: React.FunctionComponent = () => {
+const LoginPage: React.FunctionComponent = () => {
 
     const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);
     const dispatch = useDispatch();
@@ -115,4 +115,4 @@ const Login: React.FunctionComponent = () => {
     }
 };
 
-export default Login;
+export default LoginPage;

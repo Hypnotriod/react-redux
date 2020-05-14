@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Sidenav } from 'materialize-css';
-import UserIcon from './UserIcon';
+import UserInfoBar from './UserInfoBar';
 import './Navbar.css';
 
 /**
@@ -25,7 +25,7 @@ const Navbar: React.FunctionComponent = () => {
                     <ul id='nav-mobile' className='left hide-on-med-and-down'>
                         <li><NavLink to='/'>Home</NavLink></li>
                     </ul>
-                    <UserIcon />
+                    <UserInfoBar />
                 </div>
             </nav>
             <ul id='slide-out' className='sidenav sidenav-close' ref={slideOut}>

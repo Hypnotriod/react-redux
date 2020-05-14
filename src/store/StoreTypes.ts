@@ -13,6 +13,7 @@ enum StoreActionTypes {
     USER_LOGIN,
     USER_LOGOUT,
     USER_REFRESH_TOKEN,
+    PRODUCTS_GET_ALL,
 }
 
 export default StoreActionTypes;

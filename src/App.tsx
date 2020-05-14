@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Login from './components/routing/login/Login';
+import LoginPage from './components/routing/login/LoginPage';
 import Navbar from './components/Navbar/Navbar';
-import Landing from './components/routing/landing/Landing';
+import ProductsPage from './components/routing/products/ProductsPage';
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from './store/Store';
@@ -15,22 +15,22 @@ import { userRefreshTokenAction } from './store/user/UserCredentialsActions';
 
 const App: React.FunctionComponent = () => {
 
-  const userState = useSelector((state: ApplicationState) => state.userCredentials);
+  const userCredentials = useSelector((state: ApplicationState) => state.userCredentials);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userState.refreshToken && !userState.login) {
-      dispatch(userRefreshTokenAction(userState.refreshToken));
+    if (userCredentials.refreshToken && !userCredentials.login) {
+      dispatch(userRefreshTokenAction(userCredentials.refreshToken));
     }
-  }, [userState, dispatch]);
+  }, [userCredentials, dispatch]);
 
   return (
     <BrowserRouter basename='/react-redux'>
       <Navbar />
       <div className='container'>
         <Switch>
-          <Route exact path='/' component={Landing} />
-          <Route path='/login' component={Login} />
+          <Route exact path='/' component={ProductsPage} />
+          <Route path='/login' component={LoginPage} />
         </Switch>
       </div>
     </BrowserRouter>

@@ -10,7 +10,7 @@ import { userLogOutAction } from '../../store/user/UserCredentialsActions';
  * @author Ilya Pikin
  */
 
-const UserIcon: React.FunctionComponent = () => {
+const UserInfoBar: React.FunctionComponent = () => {
     const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);
     const dispatch = useDispatch();
 
@@ -47,4 +47,4 @@ const UserIcon: React.FunctionComponent = () => {
     }
 };
 
-export default UserIcon;
+export default UserInfoBar;

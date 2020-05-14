@@ -1,5 +1,5 @@
 import { UserCredentials } from './UserCredentials';
-import { UserCredentialsActions } from './UserCredentialsActions';
+import { UserCredentialsAction } from './UserCredentialsActions';
 import StoreActionTypes from '../StoreTypes';
 import AuthorizationResult from '../../dto/AuthorizationResult';
 import HttpStatusCode from '../../constants/HttpStatusCode';
@@ -23,7 +23,7 @@ const defaultState: UserCredentials = {
 
 const userCredentialsReducer = (
     state: UserCredentials = defaultState,
-    action: UserCredentialsActions): UserCredentials => {
+    action: UserCredentialsAction): UserCredentials => {
     switch (action.type) {
         case StoreActionTypes.USER_LOGIN:
             return handleUserLogin(state, action.payload);
