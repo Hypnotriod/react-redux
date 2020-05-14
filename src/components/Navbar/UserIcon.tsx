@@ -19,23 +19,27 @@ const UserIcon: React.FunctionComponent = () => {
 
     return (
         <>
-            {userCredentials.authorizationGranted
+            {(userCredentials.refreshToken && !userCredentials.login)
                 ?
-                <>
-                    <ul id='nav-mobile' className='right'>
-                        <a href='/' onClick={onLogOut}>Log Out</a>
-                    </ul>
-                    <Link to='/' className='right padding-right'>{userCredentials.login}
-                        <i className='material-icons right'>person</i></Link>
-                </>
+                <></>
                 :
-                <>
-                    <ul id='nav-mobile' className='right'>
-                        <Link to='/login'>Log In</Link>
-                    </ul>
-                    <Link to='/' className='right padding-right'>Guest
-                        <i className='material-icons right'>person_outline</i></Link>
-                </>
+                userCredentials.authorizationGranted
+                    ?
+                    <>
+                        <ul id='nav-mobile' className='right'>
+                            <a href='/' onClick={onLogOut}>Log Out</a>
+                        </ul>
+                        <span className='right padding-right'>{userCredentials.login}
+                            <i className='material-icons right'>person</i></span>
+                    </>
+                    :
+                    <>
+                        <ul id='nav-mobile' className='right'>
+                            <Link to='/login'>Log In</Link>
+                        </ul>
+                        <span className='right padding-right'>Guest
+                        <i className='material-icons right'>person_outline</i></span>
+                    </>
             }
         </>
     );

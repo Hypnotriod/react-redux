@@ -75,31 +75,38 @@ const Login: React.FunctionComponent = () => {
     };
 
     return (
-        <div className='section'>
-            <h5 className='center-align'>Log In</h5>
-            <form className='col s12'>
-                <div className='row'>
-                    <div className='input-field col s6'>
-                        <label>Login</label>
-                        <input className={isLoginValid ? '' : 'invalid'}
-                            type='text'
-                            onChange={onLoginChnage}
-                            onKeyPress={onKeyPress}
-                            disabled={isDisabled}
-                            ref={loginInput} />
-                    </div>
-                    <div className='input-field col s6' >
-                        <label>Password</label>
-                        <input className={isPasswordValid ? '' : 'invalid'}
-                            type='password'
-                            onChange={onPasswordChnage}
-                            onKeyPress={onKeyPress}
-                            disabled={isDisabled}
-                            ref={passwordInput} />
-                    </div>
+        <>
+            {(userCredentials.refreshToken && !userCredentials.login)
+                ?
+                <div className='section'>Trying to log you back...</div>
+                :
+                <div className='section'>
+                    <h5 className='center-align'>Log In</h5>
+                    <form className='col s12'>
+                        <div className='row'>
+                            <div className='input-field col s6'>
+                                <label>Login</label>
+                                <input className={isLoginValid ? '' : 'invalid'}
+                                    type='text'
+                                    onChange={onLoginChnage}
+                                    onKeyPress={onKeyPress}
+                                    disabled={isDisabled}
+                                    ref={loginInput} />
+                            </div>
+                            <div className='input-field col s6' >
+                                <label>Password</label>
+                                <input className={isPasswordValid ? '' : 'invalid'}
+                                    type='password'
+                                    onChange={onPasswordChnage}
+                                    onKeyPress={onKeyPress}
+                                    disabled={isDisabled}
+                                    ref={passwordInput} />
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
+            }
+        </>
     );
 };
 
