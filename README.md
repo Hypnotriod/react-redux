@@ -6,5 +6,6 @@ Configured for `VSCode` IDE.
 * [react](https://reactjs.org/)
 * [react-redux](https://www.npmjs.com/package/react-redux)
 * [react-router-dom](https://www.npmjs.com/package/react-router-dom)
+* [axios](https://www.npmjs.com/package/axios)
 * [materializecss](https://materializecss.com/about.html)
 * [react-materialize](https://www.npmjs.com/package/react-materialize)
