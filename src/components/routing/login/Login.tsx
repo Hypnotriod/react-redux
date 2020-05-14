@@ -6,12 +6,14 @@ import { LOGIN_MIN_LENGTH, LOGIN_MAX_LENGTH } from '../../../constants/API';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogInAction } from '../../../store/user/UserActions';
 import { ApplicationState } from '../../../store/Store';
-import { UserState } from '../../../store/user/UserState';
+import { UserCredentials } from '../../../store/user/UserCredentials';
+import { useHistory } from 'react-router-dom';
 
 const Login: React.FunctionComponent = () => {
 
-    const userState: UserState = useSelector((state: ApplicationState) => state.userState);
+    const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);
     const dispatch = useDispatch();
+    const history = useHistory();
     const [isDisabled, setDisabled] = useState(false);
     const [isLoginValid, setLoginValid] = useState(true);
     const [isPasswordValid, setPasswordValid] = useState(true);
@@ -22,13 +24,16 @@ const Login: React.FunctionComponent = () => {
         .is().max(LOGIN_MAX_LENGTH);
 
     useEffect(() => {
-        if (userState.authenticationError) {
+        if (userCredentials.authorizationGranted) {
+            history.push('/');
+        }
+        if (userCredentials.authenticationError) {
             setDisabled(false);
             passwordInput.current!.value = '';
             setLoginValid(false);
             setPasswordValid(false);
         }
-    }, [userState]);
+    }, [userCredentials, history]);
 
     const validateLogin = (): boolean => {
         const loginInputValue = loginInput.current!.value;

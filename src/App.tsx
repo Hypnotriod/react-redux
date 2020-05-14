@@ -1,22 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Login from './components/routing/login/Login';
 import Navbar from './components/Navbar/Navbar';
 import Landing from './components/routing/landing/Landing';
 import './App.css';
-import { UserState } from './store/user/UserState';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from './store/Store';
+import { userRefreshTokenAction } from './store/user/UserActions';
 
 const App: React.FunctionComponent = () => {
-  const userState: UserState = useSelector((state: ApplicationState) => state.userState);
+
+  const userState = useSelector((state: ApplicationState) => state.userCredentials);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (userState.refreshToken && !userState.login) {
+      dispatch(userRefreshTokenAction(userState.refreshToken));
+    }
+  }, [userState, dispatch]);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='/react-redux'>
       <Navbar />
       <div className='container'>
         <Switch>
-          <Route exact path='/' component={userState.authorizationGranted ? Landing : Login} />
+          <Route exact path='/' component={Landing} />
+          <Route path='/login' component={Login} />
         </Switch>
       </div>
     </BrowserRouter>

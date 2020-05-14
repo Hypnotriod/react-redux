@@ -1,14 +1,14 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { UserState } from './user/UserState';
+import { UserCredentials } from './user/UserCredentials';
 import userReducer from './user/UserReducer';
 
 export interface ApplicationState {
-    userState: UserState;
+    userCredentials: UserCredentials;
 }
 
 export default createStore(
     combineReducers<ApplicationState>({
-        userState: userReducer,
+        userCredentials: userReducer,
     }),
     applyMiddleware(thunk));

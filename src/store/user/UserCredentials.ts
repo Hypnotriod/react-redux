@@ -1,4 +1,4 @@
-export interface UserState {
+export interface UserCredentials {
     authenticationToken: string | null;
     refreshToken: string | null;
     login: string | null;

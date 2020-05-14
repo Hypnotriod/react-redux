@@ -1,6 +1,6 @@
 
 class LocalStorageService {
-    public saveToLocalStorage<T>(state: T, key: string): T {
+    public save<T>(state: T, key: string): T {
         try {
             const serializedState = JSON.stringify(state);
             localStorage.setItem(key, serializedState);
@@ -9,7 +9,7 @@ class LocalStorageService {
         }
     }
 
-    public getFromLocalStorage<T>(defautValue: T, key: string): T {
+    public get<T>(defautValue: T, key: string): T {
         try {
             const serializedState = localStorage.getItem(key);
             if (serializedState === null) {

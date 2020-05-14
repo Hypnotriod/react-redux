@@ -1,4 +1,4 @@
-import { UserState } from './UserState';
+import { UserCredentials } from './UserCredentials';
 import { UserActions } from './UserActions';
 import StoreActionTypes from '../StoreTypes';
 import AuthorizationResult from '../../dto/AuthorizationResult';
@@ -6,36 +6,34 @@ import HttpStatusCode from '../../constants/HttpStatusCode';
 import ServerResponseResult from '../../dto/ServerResponseResult';
 import localStorageService from '../../services/LocalStorageService';
 
-const LOCAL_STORAGE_KEY: string = 'user_state';
+const LOCAL_STORAGE_REFRESH_TOKEN_KEY: string = 'token';
 
-const defaultState: UserState = localStorageService.getFromLocalStorage({
+const defaultState: UserCredentials = {
     authenticationToken: null,
-    refreshToken: null,
+    refreshToken: localStorageService.get<string | null>(null, LOCAL_STORAGE_REFRESH_TOKEN_KEY),
     login: null,
     authorizationGranted: false,
     authenticationError: false,
-}, LOCAL_STORAGE_KEY);
+};
 
 const userReducer = (
-    state: UserState = defaultState,
-    action: UserActions): UserState => {
+    state: UserCredentials = defaultState,
+    action: UserActions): UserCredentials => {
     switch (action.type) {
         case StoreActionTypes.USER_LOGIN:
-            return localStorageService.saveToLocalStorage(
-                handleLogin(state, action.payload), LOCAL_STORAGE_KEY);
+            return handleUserLogin(state, action.payload);
         case StoreActionTypes.USER_REFRESH_TOKEN:
-            return localStorageService.saveToLocalStorage(
-                handleRefreshToken(state, action.payload), LOCAL_STORAGE_KEY);
+            return handleUserRefreshToken(state, action.payload);
         case StoreActionTypes.USER_LOGOUT:
-            return localStorageService.saveToLocalStorage(
-                handleLogout(state, action.payload), LOCAL_STORAGE_KEY);
+            return handleUserLogout(state, action.payload);
         default:
             return state;
     }
 };
 
-function handleLogin(state: UserState, payload: AuthorizationResult): UserState {
+function handleUserLogin(state: UserCredentials, payload: AuthorizationResult): UserCredentials {
     if (payload.httpStatusCode === HttpStatusCode.OK) {
+        localStorageService.save<string>(payload.refreshToken!, LOCAL_STORAGE_REFRESH_TOKEN_KEY);
         return {
             ...state,
             authenticationToken: payload.authenticationToken!,
@@ -53,15 +51,20 @@ function handleLogin(state: UserState, payload: AuthorizationResult): UserState 
     }
 }
 
-function handleRefreshToken(state: UserState, payload: AuthorizationResult): UserState {
+function handleUserRefreshToken(state: UserCredentials, payload: AuthorizationResult): UserCredentials {
+    localStorageService.save<string>(payload.refreshToken!, LOCAL_STORAGE_REFRESH_TOKEN_KEY);
     return {
         ...state,
         authenticationToken: payload.authenticationToken!,
         refreshToken: payload.refreshToken!,
+        login: payload.login!,
+        authorizationGranted: payload.authorizationGranted,
+        authenticationError: false,
     };
 }
 
-function handleLogout(state: UserState, payload: ServerResponseResult): UserState {
+function handleUserLogout(state: UserCredentials, payload: ServerResponseResult): UserCredentials {
+    localStorageService.save(null, LOCAL_STORAGE_REFRESH_TOKEN_KEY);
     return {
         ...state,
         authenticationToken: null,

@@ -18,10 +18,7 @@ export function userLogInAction(login: string, password: string): any {
             const result = await requestService.sendLogInRequest(login, password);
             dispatch({
                 type: StoreActionTypes.USER_LOGIN,
-                payload: {
-                    ...result.data,
-                    login,
-                },
+                payload: result.data,
             });
         } catch (error) {
             dispatch({
@@ -30,6 +27,22 @@ export function userLogInAction(login: string, password: string): any {
                     httpStatusCode: Number((error as AxiosError).code),
                     authorizationGranted: false,
                 },
+            });
+        }
+    };
+}
+
+export function userRefreshTokenAction(refreshToken: string): any {
+    return async (dispatch: ThunkDispatch<UserActions, undefined, Action>) => {
+        try {
+            const result = await requestService.sendRefreshTokenRequest(refreshToken);
+            dispatch({
+                type: StoreActionTypes.USER_REFRESH_TOKEN,
+                payload: result.data,
+            });
+        } catch (error) {
+            dispatch({
+                type: StoreActionTypes.USER_LOGOUT,
             });
         }
     };
