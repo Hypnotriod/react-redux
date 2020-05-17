@@ -13,6 +13,7 @@ enum StoreActionTypes {
     USER_LOGIN,
     USER_LOGOUT,
     USER_REFRESH_TOKEN,
+    SET_PRODUCTS_STATE,
     PRODUCTS_GET_ALL,
 }
 

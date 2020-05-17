@@ -31,7 +31,8 @@ const LoginPage: React.FunctionComponent = () => {
             passwordInput.current!.setValid(false);
             passwordInput.current!.setDisabled(false);
         }
-    }, [userCredentials, history]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userCredentials]);
 
     const onEnterPress = () => {
         const validateLoginResult = loginInput.current!.validate();

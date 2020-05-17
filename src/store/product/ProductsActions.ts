@@ -1,8 +1,8 @@
 import StoreActionTypes, { StoreAction } from '../StoreTypes';
-import ProductQueryResult from '../../dto/ProductQueryResult';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import apiRequestService from '../../services/ApiRequestService';
+import Products from './Products';
 
 /**
  *
@@ -10,18 +10,29 @@ import apiRequestService from '../../services/ApiRequestService';
  */
 
 export type ProductsAction =
-    StoreAction<StoreActionTypes.PRODUCTS_GET_ALL, ProductQueryResult[]>;
+    StoreAction<StoreActionTypes.SET_PRODUCTS_STATE, boolean> |
+    StoreAction<StoreActionTypes.PRODUCTS_GET_ALL, Products>;
 
 export function getAllProductsAction(authenticationToken: string | null, refreshToken: string | null): any {
     return async (dispatch: ThunkDispatch<ProductsAction, undefined, Action>) => {
         try {
+            dispatch({
+                type: StoreActionTypes.SET_PRODUCTS_STATE,
+                payload: false,
+            });
             const result = await apiRequestService.sendGetAllProductsRequest(authenticationToken, refreshToken, dispatch);
             dispatch({
                 type: StoreActionTypes.PRODUCTS_GET_ALL,
-                payload: result.data.data,
+                payload: {
+                    products: result.data.data,
+                    isReady: true,
+                },
             });
         } catch (error) {
-            // TODO
+            dispatch({
+                type: StoreActionTypes.SET_PRODUCTS_STATE,
+                payload: true,
+            });
         }
     };
 }

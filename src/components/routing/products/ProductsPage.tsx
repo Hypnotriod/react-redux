@@ -16,6 +16,9 @@ const ProductsPage: React.FunctionComponent = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (!products.isReady) {
+            return;
+        }
         if (userCredentials.refreshToken && !userCredentials.authorizationGranted) {
             return;
         }
@@ -23,13 +26,14 @@ const ProductsPage: React.FunctionComponent = () => {
             getAllProductsAction(
                 userCredentials.authenticationToken,
                 userCredentials.refreshToken));
-    }, [userCredentials, dispatch]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userCredentials]);
 
     return (
         <div className='section'>
             <h5 className='center-align'>Products</h5>
             <div className='row'>
-                {products.map(product => <ProductCard product={product} key={product.id} />)}
+                {products.products.map(product => <ProductCard product={product} key={product.id} />)}
             </div>
         </div>
     );

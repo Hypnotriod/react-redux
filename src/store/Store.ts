@@ -2,8 +2,8 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { UserCredentials } from './user/UserCredentials';
 import userCredentialsReducer from './user/UserCredentialsReducer';
-import Product from './product/Product';
 import productsReducer from './product/ProductsReducer';
+import Products from './product/Products';
 
 /**
  *
@@ -12,7 +12,7 @@ import productsReducer from './product/ProductsReducer';
 
 export interface ApplicationState {
     userCredentials: UserCredentials;
-    products: Product[];
+    products: Products;
 }
 
 export default createStore(

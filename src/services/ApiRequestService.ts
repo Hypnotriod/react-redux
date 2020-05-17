@@ -86,7 +86,7 @@ class ApiRequestService {
             refreshTokenResult = await this.sendRefreshTokenRequest(refreshToken!);
             dispatch({
                 type: StoreActionTypes.USER_REFRESH_TOKEN,
-                payload: refreshTokenResult,
+                payload: refreshTokenResult.data,
             });
         } catch (error) {
             throw error;
