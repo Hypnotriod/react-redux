@@ -14,8 +14,8 @@ const ProductCard: React.FunctionComponent<{ product: Product }> = (props) => {
                 <div className='card-content'>
                     <span className='card-title activator'>{props.product.name}
                         <i className='material-icons right'>more_vert</i></span>
-                ({props.product.type})
-            </div>
+                    <span>({props.product.type})</span>
+                </div>
                 <div className='card-reveal'>
                     <span className='card-title grey-text text-darken-4'>{props.product.name}
                         <i className='material-icons right'>close</i></span>
@@ -23,6 +23,7 @@ const ProductCard: React.FunctionComponent<{ product: Product }> = (props) => {
                 </div>
                 <div className='card-action white-text grey darken-3'>
                     <span>{props.product.price} {props.product.currency} / {props.product.units}</span>
+                    <span className='right'>{props.product.inStockQuantity} {props.product.units} left</span>
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Sidenav } from 'materialize-css';
-import UserInfoBar from './UserInfoBar';
+import UserInfoBar from './user_info_bar/UserInfoBar';
 import './Navbar.css';
 
 /**
@@ -14,7 +14,7 @@ const Navbar: React.FunctionComponent = () => {
 
     useEffect(() => {
         Sidenav.init(slideOut.current!, {});
-    });
+    }, [slideOut]);
 
     return (
         <>
@@ -23,13 +23,13 @@ const Navbar: React.FunctionComponent = () => {
                     <i className='material-icons'>menu</i></a>
                 <div className='nav-wrapper'>
                     <ul id='nav-mobile' className='left hide-on-med-and-down'>
-                        <li><NavLink to='/'>Home</NavLink></li>
+                        <li><NavLink to='/'>Products</NavLink></li>
                     </ul>
                     <UserInfoBar />
                 </div>
             </nav>
             <ul id='slide-out' className='sidenav sidenav-close' ref={slideOut}>
-                <li><NavLink to='/'>Home</NavLink></li>
+                <li><NavLink to='/'>Products</NavLink></li>
             </ul>
         </>
     );

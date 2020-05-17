@@ -64,3 +64,7 @@ export function userLogOutAction(authenticationToken: string, refreshToken: stri
         }
     };
 }
+
+export function userChangePassword(authenticationToken: string, refreshToken: string): any {
+    // todo
+}

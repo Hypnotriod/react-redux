@@ -1,13 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PasswordValidator from 'password-validator';
-import { LOGIN_VALIDATION_REGEXP } from '../../../constants/Regexp';
-import CharCodes from '../../../constants/CharCodes';
-import { LOGIN_MIN_LENGTH, LOGIN_MAX_LENGTH } from '../../../constants/API';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogInAction } from '../../../store/user/UserCredentialsActions';
 import { ApplicationState } from '../../../store/Store';
 import { UserCredentials } from '../../../store/user/UserCredentials';
 import { useHistory } from 'react-router-dom';
+import PasswordInput from '../../forms/PasswordInput';
+import LoginInput from '../../forms/LoginInput';
 
 /**
  *
@@ -19,64 +17,33 @@ const LoginPage: React.FunctionComponent = () => {
     const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);
     const dispatch = useDispatch();
     const history = useHistory();
-    const [isDisabled, setDisabled] = useState(false);
-    const [isLoginValid, setLoginValid] = useState(true);
-    const [isPasswordValid, setPasswordValid] = useState(true);
-    const loginInput = useRef<HTMLInputElement>(null);
-    const passwordInput = useRef<HTMLInputElement>(null);
-    const passwordvalidator = new PasswordValidator()
-        .is().min(LOGIN_MIN_LENGTH)
-        .is().max(LOGIN_MAX_LENGTH);
+    const loginInput = useRef<LoginInput>(null);
+    const passwordInput = useRef<PasswordInput>(null);
 
     useEffect(() => {
         if (userCredentials.authorizationGranted) {
             history.push('/');
         }
         if (userCredentials.authenticationError) {
-            setDisabled(false);
-            passwordInput.current!.value = '';
-            setLoginValid(false);
-            setPasswordValid(false);
+            loginInput.current!.setDisabled(false);
+            loginInput.current!.setValid(false);
+            passwordInput.current!.clear();
+            passwordInput.current!.setValid(false);
+            passwordInput.current!.setDisabled(false);
         }
     }, [userCredentials, history]);
 
-    const validateLogin = (): boolean => {
-        const loginInputValue = loginInput.current!.value;
-        const result = LOGIN_VALIDATION_REGEXP.test(loginInputValue);
-        setLoginValid(result);
-        return result;
-    };
+    const onEnterPress = () => {
+        const validateLoginResult = loginInput.current!.validate();
+        const validatePasswordResult = passwordInput.current!.validate();
 
-    const validatePassword = (): boolean => {
-        const passwordInputValue = passwordInput.current!.value;
-        const result = Boolean(passwordvalidator.validate(passwordInputValue));
-        setPasswordValid(result);
-        return result;
-    };
-
-    const onLoginChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        validateLogin();
-    };
-
-    const onPasswordChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        validateLogin();
-        validatePassword();
-    };
-
-    const onKeyPress = (event: React.KeyboardEvent) => {
-        if (event.charCode === CharCodes.RETURN ||
-            event.charCode === CharCodes.ENTER) {
-            event.preventDefault();
-            const validateLoginResult = validateLogin();
-            const validatePasswordResult = validatePassword();
-
-            if (validateLoginResult && validatePasswordResult) {
-                setDisabled(true);
-                dispatch(
-                    userLogInAction(
-                        loginInput.current!.value,
-                        passwordInput.current!.value));
-            }
+        if (validateLoginResult && validatePasswordResult) {
+            loginInput.current!.setDisabled(true);
+            passwordInput.current!.setDisabled(true);
+            dispatch(
+                userLogInAction(
+                    loginInput.current!.getValue(),
+                    passwordInput.current!.getValue()));
         }
     };
 
@@ -92,20 +59,14 @@ const LoginPage: React.FunctionComponent = () => {
                     <div className='row'>
                         <div className='input-field col s6'>
                             <label>Login</label>
-                            <input className={isLoginValid ? '' : 'invalid'}
-                                type='text'
-                                onChange={onLoginChnage}
-                                onKeyPress={onKeyPress}
-                                disabled={isDisabled}
+                            <LoginInput
+                                onEnterPress={onEnterPress}
                                 ref={loginInput} />
                         </div>
                         <div className='input-field col s6' >
                             <label>Password</label>
-                            <input className={isPasswordValid ? '' : 'invalid'}
-                                type='password'
-                                onChange={onPasswordChnage}
-                                onKeyPress={onKeyPress}
-                                disabled={isDisabled}
+                            <PasswordInput
+                                onEnterPress={onEnterPress}
                                 ref={passwordInput} />
                         </div>
                     </div>

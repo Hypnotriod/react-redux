@@ -7,6 +7,7 @@ import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from './store/Store';
 import { userRefreshTokenAction } from './store/user/UserCredentialsActions';
+import ChangePasswordPage from './components/routing/change_password/ChangePasswordPage';
 
 /**
  *
@@ -31,6 +32,7 @@ const App: React.FunctionComponent = () => {
         <Switch>
           <Route exact path='/' component={ProductsPage} />
           <Route path='/login' component={LoginPage} />
+          <Route path='/change_password' component={ChangePasswordPage} />
         </Switch>
       </div>
     </BrowserRouter>
