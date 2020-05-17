@@ -16,7 +16,7 @@ const ProductsPage: React.FunctionComponent = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (userCredentials.refreshToken && !userCredentials.login) {
+        if (userCredentials.refreshToken && !userCredentials.authorizationGranted) {
             return;
         }
         dispatch(
