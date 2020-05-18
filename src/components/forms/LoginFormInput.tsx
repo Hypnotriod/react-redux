@@ -7,7 +7,7 @@ import { FormInput } from './FormInput';
  * @author Ilya Pikin
  */
 
-export default class LoginInput extends FormInput {
+export default class LoginFormInput extends FormInput {
 
     public readonly validate = (): boolean => {
         const result = LOGIN_VALIDATION_REGEXP.test(this.getValue());

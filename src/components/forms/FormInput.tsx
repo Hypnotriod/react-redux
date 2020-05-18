@@ -6,20 +6,20 @@ import CharCodes from '../../constants/CharCodes';
  * @author Ilya Pikin
  */
 
-export type InputProps = {
+export type FormInputProps = {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
     onEnterPress?: () => void,
 };
 
-export type InputState = {
+export type FormInputState = {
     isValid: boolean,
     isDisabled: boolean,
 };
 
-export abstract class FormInput extends React.Component<InputProps, InputState> {
+export abstract class FormInput extends React.Component<FormInputProps, FormInputState> {
     protected readonly inputElement = React.createRef<HTMLInputElement>();
 
-    constructor(props: InputProps) {
+    constructor(props: FormInputProps) {
         super(props);
 
         this.state = {

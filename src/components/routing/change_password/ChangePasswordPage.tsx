@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import PasswordInput from '../../forms/PasswordInput';
+import PasswordFormInput from '../../forms/PasswordFormInput';
 import { UserCredentials } from '../../../store/user/UserCredentials';
 import { useSelector } from 'react-redux';
 import { ApplicationState } from '../../../store/Store';
@@ -14,9 +14,9 @@ const ChangePasswordPage: React.FunctionComponent = () => {
 
     const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);
     const history = useHistory();
-    const oldPassword = useRef<PasswordInput>(null);
-    const newPassword = useRef<PasswordInput>(null);
-    const retypeNewPassword = useRef<PasswordInput>(null);
+    const oldPassword = useRef<PasswordFormInput>(null);
+    const newPassword = useRef<PasswordFormInput>(null);
+    const retypeNewPassword = useRef<PasswordFormInput>(null);
 
     useEffect(() => {
         if (!userCredentials.authorizationGranted && !userCredentials.refreshToken) {
@@ -47,7 +47,7 @@ const ChangePasswordPage: React.FunctionComponent = () => {
                 <div className='row'>
                     <div className='input-field col s6'>
                         <label>Old password</label>
-                        <PasswordInput
+                        <PasswordFormInput
                             onEnterPress={onEnterPress}
                             ref={oldPassword} />
                     </div>
@@ -55,7 +55,7 @@ const ChangePasswordPage: React.FunctionComponent = () => {
                 <div className='row'>
                     <div className='input-field col s6'>
                         <label>New password</label>
-                        <PasswordInput
+                        <PasswordFormInput
                             onEnterPress={onEnterPress}
                             onChange={newPasswordChange}
                             ref={newPassword} />
@@ -64,7 +64,7 @@ const ChangePasswordPage: React.FunctionComponent = () => {
                 <div className='row'>
                     <div className='input-field col s6'>
                         <label>Retype new password</label>
-                        <PasswordInput
+                        <PasswordFormInput
                             onEnterPress={onEnterPress}
                             onChange={newPasswordChange}
                             ref={retypeNewPassword} />

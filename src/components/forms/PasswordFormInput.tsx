@@ -1,18 +1,18 @@
 import React from 'react';
 import PasswordValidator from 'password-validator';
 import { LOGIN_MIN_LENGTH, LOGIN_MAX_LENGTH } from '../../constants/API';
-import { FormInput, InputProps } from './FormInput';
+import { FormInput, FormInputProps } from './FormInput';
 
 /**
  *
  * @author Ilya Pikin
  */
 
-export default class PasswordInput extends FormInput {
+export default class PasswordFormInput extends FormInput {
 
     private readonly passwordvalidator: PasswordValidator;
 
-    constructor(props: InputProps) {
+    constructor(props: FormInputProps) {
         super(props);
         this.passwordvalidator = new PasswordValidator()
             .is().min(LOGIN_MIN_LENGTH)

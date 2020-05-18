@@ -4,8 +4,8 @@ import { userLogInAction } from '../../../store/user/UserCredentialsActions';
 import { ApplicationState } from '../../../store/Store';
 import { UserCredentials } from '../../../store/user/UserCredentials';
 import { useHistory } from 'react-router-dom';
-import PasswordInput from '../../forms/PasswordInput';
-import LoginInput from '../../forms/LoginInput';
+import PasswordFormInput from '../../forms/PasswordFormInput';
+import LoginFormInput from '../../forms/LoginFormInput';
 
 /**
  *
@@ -17,8 +17,8 @@ const LoginPage: React.FunctionComponent = () => {
     const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);
     const dispatch = useDispatch();
     const history = useHistory();
-    const loginInput = useRef<LoginInput>(null);
-    const passwordInput = useRef<PasswordInput>(null);
+    const loginInput = useRef<LoginFormInput>(null);
+    const passwordInput = useRef<PasswordFormInput>(null);
 
     useEffect(() => {
         if (userCredentials.authorizationGranted) {
@@ -60,13 +60,13 @@ const LoginPage: React.FunctionComponent = () => {
                     <div className='row'>
                         <div className='input-field col s6'>
                             <label>Login</label>
-                            <LoginInput
+                            <LoginFormInput
                                 onEnterPress={onEnterPress}
                                 ref={loginInput} />
                         </div>
                         <div className='input-field col s6' >
                             <label>Password</label>
-                            <PasswordInput
+                            <PasswordFormInput
                                 onEnterPress={onEnterPress}
                                 ref={passwordInput} />
                         </div>
