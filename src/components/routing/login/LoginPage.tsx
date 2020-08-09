@@ -20,7 +20,7 @@ const LoginPage: React.FunctionComponent = () => {
     const loginInput = useRef<LoginFormInput>(null);
     const passwordInput = useRef<PasswordFormInput>(null);
 
-    useEffect(() => {
+    const onUeserCredentialsUpdate = () => {
         if (userCredentials.authorizationGranted) {
             history.push('/');
         }
@@ -31,8 +31,7 @@ const LoginPage: React.FunctionComponent = () => {
             passwordInput.current!.setValid(false);
             passwordInput.current!.setDisabled(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userCredentials]);
+    };
 
     const onEnterPress = () => {
         const validateLoginResult = loginInput.current!.validate();
@@ -47,6 +46,8 @@ const LoginPage: React.FunctionComponent = () => {
                     passwordInput.current!.getValue()));
         }
     };
+
+    useEffect(onUeserCredentialsUpdate, [userCredentials]);
 
     if (userCredentials.refreshToken && !userCredentials.login) {
         return (

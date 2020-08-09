@@ -29,6 +29,7 @@
     "@types/react-redux": "^7.1.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/shortid": "0.0.29",
+    "eslint-plugin-react-hooks": "0.0.0-f77c7b9d7",
     "typescript": "^3.7.5",
     "tslint": "^6.1.2"
   },

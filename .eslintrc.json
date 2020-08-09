@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "react-hooks"
+  ],
+  "plugins": [
+    "react-hooks"
+  ],
+  "rules": {
+    "react-hooks/exhaustive-deps": "off"
+  }
+}

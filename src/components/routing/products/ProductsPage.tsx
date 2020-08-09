@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from '../../../store/Store';
 import { UserCredentials } from '../../../store/user/UserCredentials';
 import { getAllProductsAction } from '../../../store/product/ProductsActions';
+import Products from '../../../store/product/Products';
 
 /**
  *
@@ -11,11 +12,11 @@ import { getAllProductsAction } from '../../../store/product/ProductsActions';
  */
 
 const ProductsPage: React.FunctionComponent = () => {
-    const products = useSelector((state: ApplicationState) => state.products);
+    const products: Products = useSelector((state: ApplicationState) => state.products);
     const userCredentials: UserCredentials = useSelector((state: ApplicationState) => state.userCredentials);
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    const onUeserCredentialsUpdate = () => {
         if (!products.isReady) {
             return;
         }
@@ -26,8 +27,9 @@ const ProductsPage: React.FunctionComponent = () => {
             getAllProductsAction(
                 userCredentials.authenticationToken,
                 userCredentials.refreshToken));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userCredentials]);
+    };
+
+    useEffect(onUeserCredentialsUpdate, [userCredentials]);
 
     return (
         <div className='section'>
