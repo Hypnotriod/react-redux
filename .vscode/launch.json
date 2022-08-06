@@ -8,6 +8,16 @@
             "url": "http://localhost:2000",
             "webRoot": "${workspaceRoot}",
             "timeout": 30000,
-        }
+        },
+        {
+            "name": "React Start",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "start"
+            ]
+        },
     ]
 }
